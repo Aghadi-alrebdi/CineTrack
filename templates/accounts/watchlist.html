@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-3" style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+        <h1 class="fw-bold mb-0">
+                        <i class="fas fa-list" style="font-size: 32px;"></i> My Watchlist
+        </h1>
+        <a href="{% url 'home' %}" class="btn btn-primary-custom" style="padding: 4px 14px; font-size: 12px;">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+    </div>
+
+    {% if user.is_authenticated %}
+
+        <!-- Filter Buttons - Always visible -->
+        <div style="display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;">
+            <button class="filter-btn active" data-filter="all" 
+                    style="background: var(--primary); color: var(--bg-primary); border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; transition: 0.3s;">
+                All ({{ watchlist|length }})
+            </button>
+            <button class="filter-btn" data-filter="movie" 
+                    style="background: transparent; color: var(--text-secondary); border: 1px solid var(--border-color); padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; transition: 0.3s;">
+                Movies
+            </button>
+            <button class="filter-btn" data-filter="tv" 
+                    style="background: transparent; color: var(--text-secondary); border: 1px solid var(--border-color); padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; transition: 0.3s;">
+                TV Shows
+            </button>
+        </div>
+
+        {% if watchlist %}
+
+        <div class="row g-4" id="watchlist-grid">
+
+            {% for item in watchlist %}
+
+            <div class="col-6 col-md-4 col-lg-3 col-xl-2-4 watchlist-item" data-type="{{ item.media_type }}">
+
+                {% if item.media_type == "movie" %}
+                    <a href="{% url 'movie_detail' item.media_id %}" class="text-decoration-none">
+                {% else %}
+                    <a href="{% url 'tv_detail' item.media_id %}" class="text-decoration-none">
+                {% endif %}
+
+                    <div class="movie-card h-100">
+
+                        <div class="poster">
+
+                            {% if item.poster_path %}
+                                <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}"
+                                     class="card-poster"
+                                     alt="{{ item.title }}">
+                            {% else %}
+                                <div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%; background: var(--surface-light); font-size: 48px; color: var(--text-muted);">
+                                    {% if item.media_type == "movie" %}
+                                        <i class="fas fa-film"></i>
+                                    {% else %}
+                                        <i class="fas fa-tv"></i>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                        <h5 class="mt-3">
+                            {{ item.title }}
+                        </h5>
+
+                        <small class="text-secondary-custom">
+
+                            {% if item.media_type == "movie" %}
+                                Movie
+                            {% else %}
+                                TV Show
+                            {% endif %}
+
+                        </small>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="movie-card text-center py-5">
+
+            <h4>Your watchlist is empty.</h4>
+
+            <p class="text-secondary-custom mb-0">
+                Start adding movies and TV shows.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    {% else %}
+
+    <div class="movie-card text-center py-5">
+
+        <h4>Please login first.</h4>
+
+        <a href="{% url 'login' %}" class="btn btn-primary-custom mt-3">
+            Login
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const watchlistItems = document.querySelectorAll('.watchlist-item');
+
+        // Only apply filtering if there are items
+        if (watchlistItems.length > 0) {
+            filterBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterBtns.forEach(function(b) {
+                        b.style.background = 'transparent';
+                        b.style.color = 'var(--text-secondary)';
+                        b.style.border = '1px solid var(--border-color)';
+                    });
+
+                    // Add active class to clicked button
+                    this.style.background = 'var(--primary)';
+                    this.style.color = 'var(--bg-primary)';
+                    this.style.border = 'none';
+
+                    const filter = this.dataset.filter;
+
+                    watchlistItems.forEach(function(item) {
+                        if (filter === 'all') {
+                            item.style.display = 'block';
+                        } else if (filter === 'movie' && item.dataset.type === 'movie') {
+                            item.style.display = 'block';
+                        } else if (filter === 'tv' && item.dataset.type === 'tv') {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+    });
+</script>
+
+{% endblock %}

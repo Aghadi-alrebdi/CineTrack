@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">
+            {{ icon }} {{ title }}
+        </h1>
+        <a href="{% url 'home' %}" class="btn btn-primary-custom" style="padding: 8px 20px; font-size: 14px;">
+            ← Back to Home
+        </a>
+    </div>
+
+    <p class="text-secondary-custom mb-4">
+        All trending TV shows right now. Showing {{ shows|length }} shows.
+    </p>
+
+    <!-- Genre Filter - EXACT same inline style as watchlist/watched -->
+    <div style="display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap;">
+        <button class="filter-btn active" onclick="window.location.href='?'" 
+                style="background: var(--primary); color: var(--bg-primary); border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; transition: 0.3s;">
+            All
+        </button>
+        {% for genre in genres %}
+        <button class="filter-btn" onclick="window.location.href='?genre={{ genre.id }}'" 
+                style="background: transparent; color: var(--text-secondary); border: 1px solid var(--border-color); padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; transition: 0.3s;">
+            {{ genre.name }}
+        </button>
+        {% endfor %}
+    </div>
+
+    <div class="row g-4">
+
+        {% for show in shows %}
+
+        <div class="col-6 col-md-4 col-lg-3 col-xl-2-4">
+
+            <a href="{% url 'tv_detail' show.id %}"
+               style="text-decoration:none; color:inherit;">
+
+                <div class="movie-card">
+
+                    <div class="poster">
+                        {% if show.poster_path %}
+                            <img src="https://image.tmdb.org/t/p/w500{{ show.poster_path }}"
+                                 style="width:100%; border-radius:14px;">
+                        {% else %}
+                            <div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%; background: var(--surface-light); font-size: 48px; color: var(--text-muted);">
+                                📺
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <h5 class="mt-2">
+                        {{ show.name }}
+                    </h5>
+
+                    <small class="text-secondary-custom">
+                        ⭐ {{ show.vote_average }}
+                    </small>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        {% empty %}
+
+        <div class="movie-card text-center py-5">
+            <h5>No trending shows found for this genre.</h5>
+            <p class="text-secondary-custom mb-0">
+                <button class="filter-btn active" onclick="window.location.href='?'" 
+                        style="background: var(--primary); color: var(--bg-primary); border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; transition: 0.3s;">
+                    Clear filter
+                </button>
+            </p>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

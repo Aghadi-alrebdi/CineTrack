@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="app-wrapper p-4">
+                <h2 class="text-center mb-4">Delete Account</h2>
+                <p class="text-secondary-custom text-center mb-4">
+                    Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.
+                </p>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-grid gap-3">
+                        <button type="submit" class="btn" style="background: #EF4444; color: white; border: none; border-radius: 12px; padding: 12px; font-weight: 600; font-family: 'Poppins', sans-serif; transition: 0.3s;" onmouseover="this.style.backgroundColor='#DC2626'" onmouseout="this.style.backgroundColor='#EF4444'">
+                            <i class="fas fa-trash-alt"></i> Yes, Delete My Account
+                        </button>
+                        <a href="{% url 'profile' user.username %}" class="btn btn-outline-custom text-center">
+                            <i class="fas fa-arrow-left"></i> Cancel, Go Back
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

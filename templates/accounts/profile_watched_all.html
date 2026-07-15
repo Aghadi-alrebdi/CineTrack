@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">
+            Watched by {{ profile_user.username }}
+        </h1>
+        <a href="{% url 'profile' profile_user.username %}" class="btn btn-primary-custom" style="padding: 8px 20px; font-size: 14px;">
+            Back to Profile
+        </a>
+    </div>
+
+    <p class="text-secondary-custom mb-4">
+        All movies and TV shows {{ profile_user.username }} has watched.
+    </p>
+
+    {% if watched_items %}
+
+    <div class="row g-4">
+
+        {% for item in watched_items %}
+
+        <div class="col-6 col-md-4 col-lg-3 col-xl-2-4">
+
+            <a href="{% if item.media_type == 'movie' %}{% url 'movie_detail' item.id %}{% else %}{% url 'tv_detail' item.id %}{% endif %}" 
+               style="text-decoration: none; color: inherit;">
+
+                <div class="movie-card">
+
+                    <div class="poster">
+                        {% if item.poster_path %}
+                            <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}"
+                                 class="card-poster"
+                                 alt="{{ item.title }}">
+                        {% else %}
+                            <div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%; background: var(--surface-light); font-size: 48px; color: var(--text-muted);">
+                                {% if item.media_type == "movie" %}
+                                    Movie
+                                {% else %}
+                                    TV Show
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <h5 class="mt-3">
+                        {{ item.title }}
+                    </h5>
+
+                    <small class="text-secondary-custom">
+
+                        {% if item.media_type == "movie" %}
+                            Movie
+                        {% else %}
+                            TV Show
+                        {% endif %}
+
+                    </small>
+
+                    {% if item.rating %}
+                        <small class="text-secondary-custom mt-1 d-block">
+                            ⭐ {{ item.rating }}/10
+                        </small>
+                    {% endif %}
+
+                </div>
+
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="movie-card text-center py-5">
+
+        <h4>{{ profile_user.username }} hasn't watched anything yet.</h4>
+
+        <p class="text-secondary-custom mb-0">
+            They haven't marked any movies or TV shows as watched.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

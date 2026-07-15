@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="fw-bold" style="font-size: 1.5rem;">
+            <i class="fas fa-users"></i> Followers
+        </h1>
+        <a href="{% url 'profile' profile_user.username %}" class="btn btn-primary-custom" style="padding: 4px 14px; font-size: 12px;">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+    </div>
+
+    <p class="text-secondary-custom mb-3" style="font-size: 14px;">
+        People who follow {{ profile_user.username }}.
+    </p>
+
+    {% if followers %}
+
+    <div class="row g-2">
+
+        {% for follow in followers %}
+
+        <div class="col-6 col-md-3 col-lg-2">
+
+            <a href="{% url 'profile' follow.follower.username %}" style="text-decoration: none; color: inherit; display: block;">
+                <div class="movie-card" style="padding: 12px 14px; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: 0.25s; text-align: center;">
+
+                    <!-- Avatar -->
+                    <div style="flex-shrink: 0;">
+                        {% if follow.follower.profile.profile_picture %}
+                            <img src="{{ follow.follower.profile.profile_picture.url }}" 
+                                 style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary);">
+                        {% else %}
+                            <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--surface-light); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--text-primary); border: 2px solid var(--primary);">
+                                {{ follow.follower.username|first|upper }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- User Info -->
+                    <div style="min-width: 0; width: 100%;">
+                        <div style="font-weight: 600; color: var(--text-primary); font-size: 13px; transition: 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            {{ follow.follower.username }}
+                        </div>
+                        <div style="color: var(--text-secondary); font-size: 10px;">
+                            <i class="fas fa-calendar-alt"></i> {{ follow.follower.profile.join_date|date:"M Y" }}
+                        </div>
+                    </div>
+
+                    <!-- Follow Button -->
+                    <div style="flex-shrink: 0; width: 100%;" onclick="event.stopPropagation();">
+                        {% if follow.follower != request.user %}
+                            {% if follow.is_following %}
+                                <a href="{% url 'unfollow_user' follow.follower.username %}" class="btn btn-outline-custom" style="padding: 3px 12px; font-size: 11px; width: 100%; display: block; text-align: center; text-decoration: none;">
+                                    <i class="fas fa-user-minus"></i> Unfollow
+                                </a>
+                            {% else %}
+                                <a href="{% url 'follow_user' follow.follower.username %}" class="btn btn-primary-custom" style="padding: 3px 12px; font-size: 11px; width: 100%; display: block; text-align: center; text-decoration: none;">
+                                    <i class="fas fa-user-plus"></i> Follow
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <span style="color: var(--text-muted); font-size: 11px; padding: 3px 12px; background: var(--surface-light); border-radius: 12px; display: block; width: 100%;">
+                                <i class="fas fa-user"></i> You
+                            </span>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="movie-card text-center py-3">
+        <div style="font-size: 28px; color: var(--text-muted); margin-bottom: 8px;">
+            <i class="fas fa-user-slash"></i>
+        </div>
+        <h5 style="font-size: 14px;">No followers yet</h5>
+        <p class="text-secondary-custom mb-0" style="font-size: 13px;">
+            {{ profile_user.username }} doesn't have any followers yet.
+        </p>
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

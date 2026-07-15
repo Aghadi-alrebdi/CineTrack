@@ -1,0 +1,21 @@
+<div class="rating-card" style="background: var(--surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 18px; width: 100%; margin-top: 4px;">
+    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <span style="color: var(--text-secondary); font-size: 14px; font-weight: 500; min-width: 90px;">Your Rating</span>
+        <div class="rating-container" data-media-id="{{ media_id }}" data-media-type="{{ media_type }}" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; flex: 1;">
+            <div class="rating-stars" id="stars-{{ media_id }}" style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <span class="star" data-value="1" style="font-size: 32px; cursor: pointer; color: var(--text-muted); transition: 0.2s; user-select: none; line-height: 1;">★</span>
+                <span class="star" data-value="2" style="font-size: 32px; cursor: pointer; color: var(--text-muted); transition: 0.2s; user-select: none; line-height: 1;">★</span>
+                <span class="star" data-value="3" style="font-size: 32px; cursor: pointer; color: var(--text-muted); transition: 0.2s; user-select: none; line-height: 1;">★</span>
+                <span class="star" data-value="4" style="font-size: 32px; cursor: pointer; color: var(--text-muted); transition: 0.2s; user-select: none; line-height: 1;">★</span>
+                <span class="star" data-value="5" style="font-size: 32px; cursor: pointer; color: var(--text-muted); transition: 0.2s; user-select: none; line-height: 1;">★</span>
+                <span class="star" data-value="6" style="font-size: 32px; cursor: pointer; color: var(--text-muted); transition: 0.2s; user-select: none; line-height: 1;">★</span>
+                <span class="star" data-value="7" style="font-size: 32px; cursor: pointer; color: var(--text-muted); transition: 0.2s; user-select: none; line-height: 1;">★</span>
+                <span class="star" data-value="8" style="font-size: 32px; cursor: pointer; color: var(--text-muted); transition: 0.2s; user-select: none; line-height: 1;">★</span>
+                <span class="star" data-value="9" style="font-size: 32px; cursor: pointer; color: var(--text-muted); transition: 0.2s; user-select: none; line-height: 1;">★</span>
+                <span class="star" data-value="10" style="font-size: 32px; cursor: pointer; color: var(--text-muted); transition: 0.2s; user-select: none; line-height: 1;">★</span>
+            </div>
+            <span class="rating-text" id="rating-text-{{ media_id }}" style="font-size: 16px; font-weight: 600; color: var(--text-primary); min-width: 50px;">0/10</span>
+            <span class="rating-emoji" id="rating-emoji-{{ media_id }}" style="font-size: 28px;">⭐</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- HERO IMAGE -->
+    <div class="mb-4">
+        {% if show.backdrop_path %}
+            <img src="https://image.tmdb.org/t/p/original{{ show.backdrop_path }}"
+                 class="movie-backdrop"
+                 alt="{{ show.name }} backdrop">
+        {% else %}
+            <div style="height: 300px; background: var(--surface); border-radius:18px; display:flex; align-items:center; justify-content:center; color: var(--text-secondary);">
+                No Backdrop Available
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- TITLE + BASIC INFO + ACTION BUTTONS -->
+    <div class="movie-info">
+
+        <div>
+            <h1 class="fw-bold">{{ show.name }}</h1>
+
+            <p class="text-secondary-custom mb-1">
+                <i class="fas fa-calendar-alt"></i> {{ show.first_air_date }}
+            </p>
+
+            <p class="text-secondary-custom mb-1">
+                <i class="fas fa-tv"></i> {{ show.status }}
+            </p>
+
+            <p class="text-secondary-custom mb-1">
+                <i class="fas fa-layer-group"></i> {{ show.number_of_seasons }} Seasons • {{ show.number_of_episodes }} Episodes
+            </p>
+
+            <p class="text-secondary-custom">
+                <i class="fas fa-tags"></i>
+                {% for genre in show.genres %}
+                    {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+
+        <!-- ACTION BUTTONS GROUP -->
+        <div class="movie-actions" style="display: flex; flex-direction: column; align-items: flex-end; gap: 12px;">
+
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end;">
+                <!-- WATCHLIST BUTTON -->
+                <button class="watchlist-btn movie-watchlist-btn"
+                        onclick="toggleWatchlist(this)"
+                        data-media-id="{{ show.id }}"
+                        data-media-type="tv"
+                        data-title="{{ show.name }}"
+                        data-poster-path="{{ show.poster_path|default:'' }}">
+                    <i class="fas fa-plus"></i> Add to Watchlist
+                </button>
+
+                <!-- WATCHED BUTTON for TV Show (Mark whole show as watched) -->
+                <button class="watch-btn movie-watch-btn"
+                        onclick="toggleShowWatched(this)"
+                        data-show-id="{{ show.id }}"
+                        data-show-title="{{ show.name }}"
+                        data-poster-path="{{ show.poster_path|default:'' }}"
+                        data-total-episodes="{{ show.number_of_episodes }}">
+                    <i class="fas fa-check"></i> Mark as Watched
+                </button>
+            </div>
+
+            <!-- USER RATING - Include only (card is inside the include) -->
+            {% if user.is_authenticated %}
+                {% include 'includes/rating.html' with media_id=show.id media_type='tv' %}
+            {% else %}
+                <div class="rating-card" style="background: var(--surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 18px; width: 100%; max-width: 350px; margin-top: 4px;">
+                    <p class="text-secondary-custom" style="margin: 0; font-size: 14px;">
+                        <i class="fas fa-lock"></i>
+                        <a href="{% url 'login' %}" style="color: var(--primary);">Login</a> to rate this TV show
+                    </p>
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="mt-4">
+        <h4><i class="fas fa-info-circle"></i> About</h4>
+        <p>{{ show.overview }}</p>
+    </div>
+
+    <!-- TMDB RATING -->
+    <div class="mt-4">
+        <h4><i class="fas fa-star" style="color: #FBBF24;"></i> TMDB Rating</h4>
+        <p>{{ show.vote_average }}</p>
+    </div>
+
+    <!-- CAST -->
+    <div class="mt-5">
+
+        <h3><i class="fas fa-users"></i> Cast</h3>
+
+        <div class="row g-3 mt-2">
+
+            {% for actor in cast %}
+
+            <div class="col-6 col-md-3 col-lg-2">
+
+                <div class="cast-card">
+
+                    {% if actor.profile_path %}
+                        <img src="https://image.tmdb.org/t/p/w185{{ actor.profile_path }}"
+                             class="cast-image"
+                             alt="{{ actor.name }}">
+                    {% else %}
+                        <div style="width:100%; height:185px; background: var(--surface); border-radius:12px; display:flex; align-items:center; justify-content:center; color: var(--text-secondary);">
+                            <i class="fas fa-user" style="font-size: 40px;"></i>
+                        </div>
+                    {% endif %}
+
+                    <h6 class="cast-name">{{ actor.name }}</h6>
+
+                    <small class="cast-character">
+                        <i class="fas fa-user-tag"></i> {{ actor.character }}
+                    </small>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+    
+    <!-- SEASONS -->
+    <div class="mt-5">
+
+        <h4><i class="fas fa-list"></i> Seasons</h4>
+
+        {% for season in seasons %}
+
+            {% if season.season_number > 0 %}
+
+            <div class="pb-3 mb-3 border-bottom">
+
+                <!-- Season Header -->
+                <div class="season-header"
+                     onclick="toggleSeason('season{{ forloop.counter }}', this)">
+
+                    <div>
+                        <strong>{{ season.name }}</strong>
+                        <br>
+                        <small class="text-secondary-custom">
+                            <i class="fas fa-film"></i> {{ season.episode_count }} Episodes
+                        </small>
+                    </div>
+
+                    <div class="season-controls">
+
+                        <button class="season-watch-btn"
+                                onclick="event.stopPropagation(); toggleSeasonWatched(this, 'season{{ forloop.counter }}')"
+                                data-show-id="{{ show.id }}"
+                                data-show-title="{{ show.name }}"
+                                data-poster-path="{{ show.poster_path|default:'' }}"
+                                data-season-number="{{ season.season_number }}">
+                            Mark Season
+                        </button>
+
+                        <span class="arrow">▸</span>
+
+                    </div>
+
+                </div>
+
+                <!-- Episodes -->
+                <div id="season{{ forloop.counter }}" class="d-none mt-3">
+
+                    {% if season.episodes %}
+
+                        {% for ep in season.episodes %}
+
+                        <div class="episode-item"
+                             id="season-{{ season.season_number }}-episode-{{ ep.episode_number }}"
+                             data-season="{{ season.season_number }}"
+                             data-episode="{{ ep.episode_number }}">
+
+                            <div>
+
+                                <strong>
+                                    <i class="fas fa-play-circle"></i> Episode {{ ep.episode_number }}
+                                </strong>
+
+                                <br>
+
+                                <small class="text-secondary-custom">
+                                    {{ ep.name }}
+                                </small>
+
+                                {% if ep.air_date %}
+                                    <br>
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar-alt"></i> {{ ep.air_date }}
+                                    </small>
+                                {% endif %}
+
+                            </div>
+
+                            {% if ep.air_date and ep.days_until > 0 %}
+                                <!-- Episode not aired yet - Show days until -->
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="padding: 6px 16px; border-radius: 20px; border: 2px solid #FBBF24; background: rgba(251, 191, 36, 0.1); color: #FBBF24; font-size: 0.9rem; font-weight: 600; white-space: nowrap;">
+                                        <i class="fas fa-clock"></i>
+                                        {% if ep.days_until == 1 %}
+                                            1 day until
+                                        {% else %}
+                                            {{ ep.days_until }} days until
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            {% elif ep.air_date and ep.days_until == 0 %}
+                                <!-- Episode airs today -->
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="padding: 6px 16px; border-radius: 20px; border: 2px solid #FBBF24; background: rgba(251, 191, 36, 0.1); color: #FBBF24; font-size: 0.9rem; font-weight: 600; white-space: nowrap;">
+                                        <i class="fas fa-clock"></i> Today!
+                                    </span>
+                                </div>
+                            {% else %}
+                                <!-- Episode aired - Show Watch button -->
+                                <button class="watch-btn episode-watch-btn"
+                                        onclick="event.stopPropagation(); toggleWatch(this);"
+                                        data-show-id="{{ show.id }}"
+                                        data-show-title="{{ show.name }}"
+                                        data-poster-path="{{ show.poster_path|default:'' }}"
+                                        data-season-number="{{ season.season_number }}"
+                                        data-episode-number="{{ ep.episode_number }}"
+                                        data-episode-title="{{ ep.name }}">
+                                    <i class="fas fa-play"></i> Watch
+                                </button>
+                            {% endif %}
+
+                        </div>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <p class="text-secondary-custom">
+                            <i class="fas fa-info-circle"></i> No episodes available for this season.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        {% endfor %}
+
+    </div>
+
+    <!-- COMMENTS -->
+    <div class="mt-5">
+        <h4><i class="fas fa-comments"></i> Comments</h4>
+        {% include 'includes/comments.html' with media_id=show.id media_type='tv' %}
+    </div>
+
+</div>
+
+{% endblock %}

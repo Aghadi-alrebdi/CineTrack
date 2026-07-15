@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-3" style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+        <h1 class="fw-bold mb-0">
+            <i class="fas fa-calendar-alt"></i> All Upcoming Episodes
+        </h1>
+        <a href="{% url 'home' %}" class="btn btn-primary-custom" style="padding: 4px 14px; font-size: 12px;">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+    </div>
+
+    <p class="text-secondary-custom mb-4">
+        All upcoming episodes for shows you're watching for the next 2 months. Total: {{ upcoming_episodes|length }} episodes.
+    </p>
+
+    {% if user.is_authenticated %}
+
+        {% if upcoming_episodes %}
+
+        <div class="row g-4">
+
+            {% for episode in upcoming_episodes %}
+
+            <div class="col-6 col-md-4 col-lg-3">
+
+                <a href="{% url 'tv_detail' episode.show_id %}#season-{{ episode.season }}-episode-{{ episode.episode }}" 
+                   style="text-decoration: none; color: inherit; display: block; height: 100%;">
+
+                    <div class="movie-card" style="height: 100%;">
+
+                        <div class="poster" style="height: 280px; position: relative;">
+
+                            {% if episode.poster_path %}
+                                <img src="https://image.tmdb.org/t/p/w500{{ episode.poster_path }}" 
+                                     style="width:100%; height:100%; object-fit:cover; border-radius:14px;"
+                                     alt="{{ episode.show_name }}">
+                            {% else %}
+                                <div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%; background: var(--surface-light); font-size: 48px; color: var(--text-muted); border-radius:14px;">
+                                    <i class="fas fa-tv"></i>
+                                </div>
+                            {% endif %}
+
+                            <!-- Days Badge Overlay -->
+                            <div style="position: absolute; top: 10px; right: 10px; background: var(--primary); color: var(--bg-primary); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                                {% if episode.days_until == 0 %}
+                                    <i class="fas fa-clock"></i> Today
+                                {% elif episode.days_until == 1 %}
+                                    <i class="fas fa-clock"></i> Tomorrow
+                                {% else %}
+                                    <i class="fas fa-clock"></i> {{ episode.days_until }} days
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                        <h5 class="mt-2" style="font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            {{ episode.show_name }}
+                        </h5>
+
+                        <small class="text-secondary-custom d-block" style="font-size: 13px;">
+                            <i class="fas fa-layer-group"></i> S{{ episode.season }} <i class="fas fa-play-circle"></i> E{{ episode.episode }}
+                            {% if episode.episode_name != episode.show_name %}
+                                <br>{{ episode.episode_name|truncatechars:30 }}
+                            {% endif %}
+                        </small>
+
+                        <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+                            <div style="flex: 1; height: 4px; background: var(--surface-light); border-radius: 4px; overflow: hidden;">
+                                <div class="progress-fill" data-progress="{{ episode.progress|default:0 }}" style="height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); border-radius: 4px; width: 0%;"></div>
+                            </div>
+                            <span style="color: var(--text-secondary); font-size: 11px; font-weight: 500; min-width: 32px;">
+                                {{ episode.progress|default:0 }}%
+                            </span>
+                        </div>
+
+                        <small class="text-muted mt-1 d-block" style="font-size: 11px;">
+                            <i class="fas fa-tv"></i> {{ episode.show_status }}
+                        </small>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="movie-card text-center py-5">
+
+            <h5><i class="fas fa-check-circle"></i> All caught up!</h5>
+
+            <p class="text-secondary-custom mb-0">
+                You don't have any upcoming episodes for shows you're watching in the next 2 months.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    {% else %}
+
+    <div class="movie-card text-center py-5">
+
+        <h5><i class="fas fa-lock"></i> Login to see upcoming episodes</h5>
+
+        <p class="text-secondary-custom mb-0">
+            <a href="{% url 'login' %}" style="color: var(--primary);">Login</a> to see upcoming episodes for shows you're watching.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.progress-fill').forEach(function(el) {
+            var progress = el.getAttribute('data-progress');
+            if (progress !== null && progress !== '') {
+                el.style.width = progress + '%';
+            }
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,1083 @@
+/* ==============================
+   GOOGLE FONT
+================================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* ==============================
+   COLOR PALETTE - CHANGE ONLY HERE!
+================================= */
+
+:root {
+    --bg-primary: #0F1117;
+    --bg-secondary: #181B24;
+
+    --surface: #212433;
+    --surface-light: #2D3042;
+    --surface-hover: #3A3D52;
+
+    --primary: #60A5FA;
+    --primary-hover: #3B82F6;
+    --primary-light: #93BBFC;
+
+    --accent: #F472B6;
+
+    --text-primary: #F1F5F9;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+
+    --border-color: #2D3042;
+    --border-light: #3A3D52;
+
+    --shadow-color: rgba(0,0,0,.35);
+    --shadow-glow: rgba(96,165,250,.15);
+
+    --gradient-poster: linear-gradient(135deg, #212433, #0F1117);
+    --gradient-navbar: rgba(15,17,23,.95);
+
+    --scrollbar-track: #0F1117;
+    --scrollbar-thumb: #212433;
+    --scrollbar-thumb-hover: #60A5FA;
+
+    /* WATCH BUTTON COLORS - Using star/gold color */
+    --watch-color: #FBBF24;
+    --watch-color-hover: #F59E0B;
+    --watch-color-glow: rgba(251, 191, 36, 0.3);
+}
+
+/* ==============================
+   GLOBAL
+================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    background: var(--bg-primary);
+}
+
+body {
+    background: var(--bg-primary) !important;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-primary) !important;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* ==============================
+   APP WRAPPER
+================================= */
+
+.app-wrapper {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 80vh;
+    padding: 10px 0;
+}
+
+/* ==============================
+   NAVBAR
+================================= */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+
+    background: var(--gradient-navbar) !important;
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--border-color) !important;
+    padding: 18px 0;
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary) !important;
+}
+
+.nav-link {
+    color: var(--text-secondary) !important;
+    font-weight: 500;
+    margin-left: 18px;
+    transition: .25s;
+}
+
+.nav-link:hover {
+    color: var(--primary) !important;
+}
+
+/* ==============================
+   SEARCH BAR
+================================= */
+
+.search-box {
+    width: 450px;
+    background: var(--surface) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    border-radius: 30px;
+    padding: 12px 20px;
+    transition: .25s;
+}
+
+.search-box::placeholder {
+    color: var(--text-muted) !important;
+}
+
+.search-box:focus {
+    outline: none;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 4px var(--shadow-glow) !important;
+}
+
+/* ==============================
+   TITLES
+================================= */
+
+.section-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text-primary) !important;
+}
+
+/* ==============================
+   CARDS
+================================= */
+
+.movie-card {
+    background: var(--surface) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 18px !important;
+    padding: 18px !important;
+
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    transition:
+        transform .25s,
+        box-shadow .25s,
+        border-color .25s,
+        background .25s;
+
+    cursor: pointer !important;
+    user-select: none;
+}
+
+.movie-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    background: var(--surface-hover) !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 10px 30px var(--shadow-glow) !important;
+}
+
+.movie-card:active {
+    transform: scale(.98);
+}
+
+.movie-card h5 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.movie-card small {
+    margin-top: auto;
+}
+
+/* ==============================
+   POSTER
+================================= */
+
+.poster {
+    width: 100%;
+    height: 320px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--surface-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ==============================
+   BUTTONS
+================================= */
+
+.btn-primary-custom {
+    background: var(--primary) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 12px;
+    padding: 10px 22px;
+    font-weight: 600;
+    transition: .25s;
+}
+
+.btn-primary-custom:hover {
+    background: var(--primary-hover) !important;
+    transform: translateY(-2px);
+}
+
+/* ==============================
+   PROGRESS BAR
+================================= */
+
+.progress {
+    width: 100%;
+    height: 8px;
+    background: var(--surface-light);
+    border-radius: 50px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        var(--primary),
+        var(--primary-light)
+    );
+    border-radius: 50px;
+}
+
+/* ==============================
+   DIVIDERS
+================================= */
+
+hr {
+    border-color: var(--border-color) !important;
+}
+
+/* ==============================
+   SCROLLBAR
+================================= */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track) !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb) !important;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover) !important;
+}
+
+/* ==============================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 768px) {
+
+    .search-box {
+        width: 100%;
+    }
+
+    .navbar-brand {
+        font-size: 1.4rem;
+    }
+
+    .movie-card {
+        margin-bottom: 20px;
+    }
+}
+
+/* ==============================
+   SECTIONS SPACING
+================================= */
+
+section {
+    margin-bottom: 60px;
+}
+
+/* ==============================
+   WATCH BUTTON - UNIFIED STYLES (Movie + Episodes)
+================================= */
+
+.watch-btn {
+    padding: 8px 20px;
+    border-radius: 25px;
+    border: 2px solid var(--watch-color);
+    background: transparent;
+    color: var(--watch-color);
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.watch-btn:hover {
+    background: rgba(251, 191, 36, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--watch-color-glow);
+}
+
+.watch-btn.watched {
+    background: var(--watch-color);
+    color: var(--bg-primary);
+    border-color: var(--watch-color);
+    box-shadow: 0 0 20px var(--watch-color-glow);
+}
+
+.watch-btn.watched:hover {
+    background: var(--watch-color-hover);
+    border-color: var(--watch-color-hover);
+    box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4);
+}
+
+.movie-watch-btn {
+    padding: 10px 28px;
+    font-size: 1rem;
+}
+
+/* ==============================
+   TV EPISODES
+================================= */
+
+.episode-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    margin: 10px 0;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--surface);
+    transition: 0.25s;
+    gap: 15px;
+}
+
+.episode-item:hover {
+    background: var(--surface-hover);
+    border-color: var(--primary);
+}
+
+.episode-item > div:first-child {
+    flex: 1;
+    min-width: 0;
+}
+
+.text-secondary-custom {
+    color: var(--text-secondary);
+}
+
+/* ==============================
+   SEASON TOGGLE ARROW
+================================= */
+
+.season-header {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    transition: 0.25s;
+}
+
+.season-header:hover {
+    color: var(--watch-color);
+}
+
+.season-header .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.season-header .arrow.rotated {
+    transform: rotate(90deg);
+}
+
+/* ==============================
+   MOVIE DETAIL PAGE
+================================= */
+
+.movie-backdrop {
+    width: 100%;
+    border-radius: 18px;
+    max-height: 450px;
+    object-fit: cover;
+}
+
+.movie-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.movie-info > div:first-child {
+    flex: 1;
+    min-width: 200px;
+}
+
+.movie-info > div:first-child p,
+.movie-info > div:first-child h1,
+.movie-info > div:first-child .text-secondary-custom {
+    text-align: left !important;
+}
+
+.movie-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    min-width: 200px;
+}
+
+/* ==============================
+   CAST SECTION
+================================= */
+
+.cast-card {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px;
+    transition: 0.25s;
+    text-align: center;
+}
+
+.cast-card:hover {
+    background: var(--surface-hover);
+    border-color: var(--primary);
+    transform: translateY(-4px);
+}
+
+.cast-image {
+    width: 100%;
+    border-radius: 12px;
+}
+
+.cast-name {
+    margin-top: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.cast-character {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+/* ==============================
+   WATCHLIST BUTTON
+================================= */
+
+.watchlist-btn {
+    padding: 8px 20px;
+    border-radius: 25px;
+    border: 2px solid var(--primary);
+    background: transparent;
+    color: var(--primary);
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.watchlist-btn:hover {
+    background: rgba(96, 165, 250, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(96, 165, 250, 0.2);
+}
+
+.watchlist-btn.in-watchlist {
+    background: var(--primary);
+    color: var(--bg-primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+}
+
+.watchlist-btn.in-watchlist:hover {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+    box-shadow: 0 4px 20px rgba(96, 165, 250, 0.4);
+}
+
+.movie-watchlist-btn {
+    padding: 10px 28px;
+    font-size: 1rem;
+}
+
+.movie-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* ==============================
+   SEASON WATCH BUTTON
+================================= */
+
+.season-watch-btn {
+    padding: 4px 14px;
+    border-radius: 15px;
+    border: 1.5px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-weight: 500;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    font-family: 'Poppins', sans-serif;
+}
+
+.season-watch-btn:hover {
+    background: rgba(244, 114, 182, 0.1);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(244, 114, 182, 0.2);
+}
+
+.season-watch-btn.season-watched {
+    background: var(--accent);
+    color: var(--bg-primary);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(244, 114, 182, 0.3);
+}
+
+.season-watch-btn.season-watched:hover {
+    background: #E061A6;
+    border-color: #E061A6;
+    box-shadow: 0 4px 20px rgba(244, 114, 182, 0.4);
+}
+
+.season-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ==============================
+   AUTH FORMS
+================================= */
+
+.auth-card {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+.app-wrapper .mb-3 {
+    margin-bottom: 22px !important;
+}
+
+.app-wrapper .form-label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.app-wrapper input,
+.app-wrapper select,
+.app-wrapper textarea {
+    width: 100%;
+    padding: 12px 15px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    outline: none;
+    transition: .25s;
+    box-sizing: border-box;
+}
+
+.app-wrapper input:focus,
+.app-wrapper select:focus,
+.app-wrapper textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(96,165,250,.20);
+}
+
+.app-wrapper input::placeholder,
+.app-wrapper textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.app-wrapper .helptext {
+    display: block;
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: .85rem;
+    line-height: 1.4;
+}
+
+.app-wrapper .errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+    color: #ef4444;
+    font-size: .85rem;
+}
+
+.app-wrapper .btn-primary-custom {
+    margin-top: 10px;
+}
+
+.app-wrapper p {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.app-wrapper a {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.app-wrapper a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+/* ==============================
+   OUTLINE BUTTON
+================================= */
+
+.btn-outline-custom {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    padding: 10px 22px;
+    font-weight: 600;
+    transition: 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
+.btn-outline-custom:hover {
+    background: var(--primary);
+    color: var(--bg-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(96, 165, 250, 0.3);
+    text-decoration: none;
+}
+
+/* ==============================
+   DROPDOWN STYLES
+================================= */
+
+.dropdown-menu {
+    background: var(--surface) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px !important;
+    padding: 8px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+.dropdown-item {
+    border-radius: 8px !important;
+    padding: 10px 16px !important;
+    color: var(--text-primary) !important;
+    transition: 0.2s !important;
+    font-weight: 500 !important;
+}
+
+.dropdown-item:hover {
+    background: var(--surface-hover) !important;
+    color: var(--primary) !important;
+}
+
+.dropdown-item:active {
+    background: var(--primary) !important;
+    color: var(--bg-primary) !important;
+}
+
+.dropdown-divider {
+    border-color: var(--border-color) !important;
+}
+
+.navbar-toggler {
+    border: 1px solid var(--border-color) !important;
+    padding: 8px 12px !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+@media (max-width: 768px) {
+    .navbar-nav {
+        margin-top: 10px;
+    }
+    
+    .nav-item {
+        margin: 4px 0;
+    }
+    
+    .dropdown-menu {
+        background: var(--bg-secondary) !important;
+        border: none !important;
+    }
+}
+
+/* ==========================================
+   WATCHLIST / WATCHED
+========================================== */
+
+.card-poster {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    border-radius: 14px;
+    display: block;
+}
+
+.movie-card h5 {
+    font-size: 16px;
+    margin-top: 15px;
+    margin-bottom: 6px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.col-xl-2-4 {
+    width: 20%;
+}
+
+@media (max-width:1200px) {
+    .col-xl-2-4 {
+        width: 25%;
+    }
+}
+
+@media (max-width:992px) {
+    .col-xl-2-4 {
+        width: 33.333%;
+    }
+}
+
+@media (max-width:768px) {
+    .col-xl-2-4 {
+        width: 50%;
+    }
+}
+
+/* ==============================
+   RATING STARS
+================================= */
+
+.rating-stars .star {
+    font-size: 32px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: 0.2s ease;
+    user-select: none;
+    line-height: 1;
+}
+
+.rating-stars .star:hover,
+.rating-stars .star.active {
+    color: #FBBF24 !important;
+    transform: scale(1.15);
+}
+
+.rating-stars .star:hover ~ .star {
+    color: var(--text-muted) !important;
+}
+
+/* ==============================
+   COMMENTS
+================================= */
+
+.comment-item {
+    transition: 0.2s ease;
+}
+
+.comment-item:hover {
+    border-color: var(--primary) !important;
+}
+
+.comment-input {
+    background: var(--bg-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    border-radius: 10px !important;
+    padding: 12px !important;
+    width: 100% !important;
+    resize: vertical !important;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.comment-input:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2) !important;
+    outline: none !important;
+}
+
+.comment-input::placeholder {
+    color: var(--text-muted) !important;
+}
+
+.comments-section {
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+}
+
+/* ==============================
+   UPCOMING EPISODES
+================================= */
+
+.hidden-episode {
+    display: none;
+}
+
+.upcoming-episode-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: 0.2s;
+    margin-bottom: 10px;
+}
+
+.upcoming-episode-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--surface);
+    transition: 0.25s;
+}
+
+.upcoming-episode-item:hover {
+    background: var(--surface-hover);
+    border-color: var(--primary);
+}
+
+#show-more-btn {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    padding: 10px 32px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+#show-more-btn:hover {
+    background: var(--primary);
+    color: var(--bg-primary);
+}
+
+#show-more-btn:active {
+    transform: scale(0.95);
+}
+
+.upcoming-group-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    padding: 8px 0;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.upcoming-group-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.upcoming-group-count {
+    background: var(--surface-light);
+    color: var(--text-secondary);
+    padding: 2px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.upcoming-episode-poster {
+    width: 40px;
+    height: 60px;
+    border-radius: 6px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.upcoming-episode-placeholder {
+    width: 40px;
+    height: 60px;
+    background: var(--surface-light);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.upcoming-episode-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.upcoming-episode-name {
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.upcoming-episode-details {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.upcoming-episode-status {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.upcoming-progress-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.upcoming-progress-track {
+    width: 60px;
+    height: 4px;
+    background: var(--surface-light);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.upcoming-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    border-radius: 4px;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.upcoming-progress-text {
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 500;
+    min-width: 32px;
+}
+
+.upcoming-days-badge {
+    background: var(--primary);
+    color: var(--bg-primary);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ==============================
+   FILTER BUTTONS
+================================= */
+
+.filter-btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s ease;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(96, 165, 250, 0.2);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.filter-btn.active {
+    background: var(--primary);
+    color: var(--bg-primary);
+    border: none;
+    font-weight: 600;
+}
+
+.filter-btn.active:hover {
+    background: var(--primary-hover);
+    color: var(--bg-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+}
+
+/* Profile picture hover effect */
+.profile-picture {
+    transition: 0.3s ease;
+}
+
+.profile-picture.clickable {
+    cursor: pointer;
+}
+
+.profile-picture.clickable:hover {
+    opacity: 0.8;
+    border-color: var(--primary-hover) !important;
+}
+
+
+/* ==============================
+   SEASON WATCH BUTTON - NO ICONS
+================================= */
+
+.season-watch-btn::before,
+.season-watch-btn::after,
+.season-watch-btn.season-watched::before,
+.season-watch-btn.season-watched::after {
+    content: none !important;
+}

@@ -1,0 +1,348 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Welcome -->
+    <div class="mb-5" style="border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+        <h1 class="fw-bold">
+            Welcome back, {{ user.username }}
+        </h1>
+    </div>
+
+    <!-- Continue Watching - Horizontal Scroll -->
+    <section class="mb-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <h2 class="section-title mb-0">
+                <i class="fas fa-play-circle"></i> Continue Watching
+            </h2>
+
+            <a href="{% url 'continue_watching' %}" style="color: var(--primary); text-decoration: none; font-weight: 500; transition: 0.2s;" onmouseover="this.style.color='var(--primary-hover)'" onmouseout="this.style.color='var(--primary)'">
+                See All <i class="fas fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+        {% if continue_watching %}
+
+        <div style="overflow-x: auto; overflow-y: hidden; white-space: nowrap; padding-bottom: 10px; scrollbar-width: thin; scrollbar-color: var(--primary) var(--surface-light);">
+            
+            <div style="display: flex; gap: 16px; width: max-content;">
+
+                {% for show in continue_watching %}
+
+                <div style="width: 200px; flex-shrink: 0;">
+
+                    <a href="{% url 'tv_detail' show.id %}"
+                       style="text-decoration:none; color:inherit;">
+
+                        <div class="movie-card" style="height: 100%;">
+
+                            <div class="poster" style="height: 280px;">
+                                {% if show.poster %}
+                                    <img src="https://image.tmdb.org/t/p/w500{{ show.poster }}"
+                                         style="width:100%; height:100%; object-fit:cover; border-radius:14px;"
+                                         alt="{{ show.title }}">
+                                {% else %}
+                                    <div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%; background: var(--surface-light); font-size: 48px; color: var(--text-muted); border-radius:14px;">
+                                        <i class="fas fa-tv"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <h6 class="mt-2" style="font-size: 14px; white-space: normal; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                {{ show.title }}
+                            </h6>
+
+                            <small class="text-secondary-custom d-block" style="font-size: 12px;">
+                                <i class="fas fa-film"></i> {{ show.watched_count }} / {{ show.total_episodes }} episodes
+                            </small>
+
+                            <small class="text-secondary-custom d-block" style="font-size: 12px;">
+                                <i class="fas fa-layer-group"></i> S{{ show.next_season }} <i class="fas fa-play-circle"></i> E{{ show.next_episode }}
+                            </small>
+
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+                                <div style="flex: 1; height: 4px; background: var(--surface-light); border-radius: 4px; overflow: hidden;">
+                                    <div class="progress-fill" data-progress="{{ show.progress|default:0 }}" style="height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); border-radius: 4px; width: 0%;"></div>
+                                </div>
+                                <span style="color: var(--text-secondary); font-size: 11px; font-weight: 500; min-width: 32px;">
+                                    {{ show.progress|default:0 }}%
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="movie-card text-center py-5">
+
+            <h5><i class="fas fa-info-circle"></i> No shows in progress</h5>
+
+            <p class="text-secondary-custom mb-0">
+                Start watching a TV show and it will appear here.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+    <!-- Trending Shows - Horizontal Scroll -->
+    <section class="mb-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <h2 class="section-title mb-0">
+                <i class="fas fa-fire"></i> Trending Shows
+            </h2>
+
+             <a href="{% url 'trending_shows' %}" style="color: var(--primary); text-decoration: none; font-weight: 500; transition: 0.2s;" onmouseover="this.style.color='var(--primary-hover)'" onmouseout="this.style.color='var(--primary)'">
+                See All <i class="fas fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+        <div style="overflow-x: auto; overflow-y: hidden; white-space: nowrap; padding-bottom: 10px; scrollbar-width: thin; scrollbar-color: var(--primary) var(--surface-light);">
+            
+            <div style="display: flex; gap: 16px; width: max-content;">
+
+                {% for show in shows %}
+
+                <div style="width: 200px; flex-shrink: 0;">
+
+                    <a href="{% url 'tv_detail' show.id %}"
+                       style="text-decoration:none; color:inherit;">
+
+                        <div class="movie-card" style="height: 100%;">
+
+                            <div class="poster" style="height: 280px;">
+                                {% if show.poster_path %}
+                                    <img src="https://image.tmdb.org/t/p/w500{{ show.poster_path }}"
+                                         style="width:100%; height:100%; object-fit:cover; border-radius:14px;">
+                                {% else %}
+                                    <div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%; background: var(--surface-light); font-size: 48px; color: var(--text-muted); border-radius:14px;">
+                                        <i class="fas fa-tv"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <h6 class="mt-2" style="font-size: 14px; white-space: normal; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                {{ show.name }}
+                            </h6>
+
+                            <small class="text-secondary-custom">
+                                <i class="fas fa-star" style="color: #FBBF24;"></i> {{ show.vote_average }}
+                            </small>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Popular Movies - Horizontal Scroll -->
+    <section class="mb-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <h2 class="section-title mb-0">
+                <i class="fas fa-film"></i> Popular Movies
+            </h2>
+
+            <a href="{% url 'popular_movies' %}" style="color: var(--primary); text-decoration: none; font-weight: 500; transition: 0.2s;" onmouseover="this.style.color='var(--primary-hover)'" onmouseout="this.style.color='var(--primary)'">
+                See All <i class="fas fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+        <div style="overflow-x: auto; overflow-y: hidden; white-space: nowrap; padding-bottom: 10px; scrollbar-width: thin; scrollbar-color: var(--primary) var(--surface-light);">
+            
+            <div style="display: flex; gap: 16px; width: max-content;">
+
+                {% for movie in movies %}
+
+                <div style="width: 200px; flex-shrink: 0;">
+
+                    <a href="{% url 'movie_detail' movie.id %}"
+                       style="text-decoration:none; color:inherit;">
+
+                        <div class="movie-card" style="height: 100%;">
+
+                            <div class="poster" style="height: 280px;">
+                                {% if movie.poster_path %}
+                                    <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+                                         style="width:100%; height:100%; object-fit:cover; border-radius:14px;">
+                                {% else %}
+                                    <div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%; background: var(--surface-light); font-size: 48px; color: var(--text-muted); border-radius:14px;">
+                                        <i class="fas fa-film"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <h6 class="mt-2" style="font-size: 14px; white-space: normal; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                {{ movie.title }}
+                            </h6>
+
+                            <small class="text-secondary-custom">
+                                <i class="fas fa-star" style="color: #FBBF24;"></i> {{ movie.vote_average }}
+                            </small>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Upcoming Episodes - Horizontal Scroll -->
+    <section class="mb-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <h2 class="section-title mb-0">
+                <i class="fas fa-calendar-alt"></i> Upcoming Episodes
+            </h2>
+
+           <a href="{% url 'all_upcoming_episodes' %}" style="color: var(--primary); text-decoration: none; font-weight: 500; transition: 0.2s;" onmouseover="this.style.color='var(--primary-hover)'" onmouseout="this.style.color='var(--primary)'">
+                See All <i class="fas fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+        {% if user.is_authenticated %}
+
+            {% if upcoming_episodes_limited %}
+
+            <div style="overflow-x: auto; overflow-y: hidden; white-space: nowrap; padding-bottom: 10px; scrollbar-width: thin; scrollbar-color: var(--primary) var(--surface-light);">
+                
+                <div style="display: flex; gap: 16px; width: max-content;">
+
+                    {% for episode in upcoming_episodes_limited %}
+
+                    <div style="width: 200px; flex-shrink: 0;">
+
+                        <a href="{% url 'tv_detail' episode.show_id %}#season-{{ episode.season }}-episode-{{ episode.episode }}" 
+                           style="text-decoration: none; color: inherit;">
+
+                            <div class="movie-card" style="height: 100%;">
+
+                                <div class="poster" style="height: 280px; position: relative;">
+                                    {% if episode.poster_path %}
+                                        <img src="https://image.tmdb.org/t/p/w500{{ episode.poster_path }}" 
+                                             style="width:100%; height:100%; object-fit:cover; border-radius:14px;"
+                                             alt="{{ episode.show_name }}">
+                                    {% else %}
+                                        <div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%; background: var(--surface-light); font-size: 48px; color: var(--text-muted); border-radius:14px;">
+                                            <i class="fas fa-tv"></i>
+                                        </div>
+                                    {% endif %}
+
+                                    <!-- Days Badge Overlay -->
+                                    <div style="position: absolute; top: 10px; right: 10px; background: var(--primary); color: var(--bg-primary); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                                        {% if episode.days_until == 0 %}
+                                            <i class="fas fa-clock"></i> Today
+                                        {% elif episode.days_until == 1 %}
+                                            <i class="fas fa-clock"></i> Tomorrow
+                                        {% else %}
+                                            <i class="fas fa-clock"></i> {{ episode.days_until }} days
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+
+                                <h6 class="mt-2" style="font-size: 14px; white-space: normal; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                    {{ episode.show_name }}
+                                </h6>
+
+                                <small class="text-secondary-custom d-block" style="font-size: 12px;">
+                                    <i class="fas fa-layer-group"></i> S{{ episode.season }} <i class="fas fa-play-circle"></i> E{{ episode.episode }}
+                                </small>
+
+                                <small class="text-secondary-custom d-block" style="font-size: 11px; color: var(--text-muted);">
+                                    <i class="fas fa-tv"></i> {{ episode.show_status }}
+                                </small>
+
+                                <!-- Progress Badge -->
+                                <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+                                    <div style="flex: 1; height: 4px; background: var(--surface-light); border-radius: 4px; overflow: hidden;">
+                                        <div class="progress-fill" data-progress="{{ episode.progress|default:0 }}" style="height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); border-radius: 4px; width: 0%;"></div>
+                                    </div>
+                                    <span style="color: var(--text-secondary); font-size: 11px; font-weight: 500; min-width: 32px;">
+                                        {{ episode.progress|default:0 }}%
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="movie-card text-center py-5">
+
+                <h5><i class="fas fa-check-circle"></i> All caught up!</h5>
+
+                <p class="text-secondary-custom mb-0">
+                    You don't have any upcoming episodes for shows you're watching in the next 2 months.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        {% else %}
+
+        <div class="movie-card text-center py-5">
+
+            <h5><i class="fas fa-lock"></i> Login to see upcoming episodes</h5>
+
+            <p class="text-secondary-custom mb-0">
+                <a href="{% url 'login' %}" style="color: var(--primary);">Login</a> to see upcoming episodes for shows you're watching.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+</div>
+
+{% endblock %}

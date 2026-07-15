@@ -1,0 +1,118 @@
+<nav class="navbar navbar-expand-lg">
+
+    <div class="container">
+
+        <a class="navbar-brand text-white" href="{% url 'home' %}">
+            CineTrack
+        </a>
+
+        <button class="navbar-toggler"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbar">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar">
+
+            <form class="mx-auto" method="GET" action="{% url 'search' %}" style="flex: 1; max-width: 450px;">
+
+                <input
+                    class="search-box"
+                    type="text"
+                    name="q"
+                    placeholder="Search movies or TV shows..."
+                    style="width: 100%;"
+                >
+
+            </form>
+
+            <ul class="navbar-nav ms-auto" style="display: flex; align-items: center; gap: 4px;">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}" style="white-space: nowrap;">Home</a>
+                </li>
+
+                {% if user.is_authenticated %}
+                    <!-- Logged In - Show User Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'continue_watching' %}" style="white-space: nowrap;">
+                            Continue
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'watchlist' %}" style="white-space: nowrap;">
+                            Watchlist
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'watched' %}" style="white-space: nowrap;">
+                            Watched
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'search_users' %}" style="white-space: nowrap;">
+                            Find People
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" 
+                           href="#" 
+                           id="userDropdown" 
+                           role="button" 
+                           data-bs-toggle="dropdown" 
+                           style="white-space: nowrap;">
+                            {{ user.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'profile' user.username %}">
+                                    Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'continue_watching' %}">
+                                    Continue Watching
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'watchlist' %}">
+                                    Watchlist
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'watched' %}">
+                                    Watched
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'search_users' %}">
+                                    Find People
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <!-- Not Logged In - Show Login/Register -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}" style="white-space: nowrap;">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}" style="white-space: nowrap;">Register</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>

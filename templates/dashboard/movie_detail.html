@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- HERO / BACKDROP -->
+    <div class="mb-4">
+        <img src="https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}"
+             class="movie-backdrop"
+             alt="{{ movie.title }} backdrop">
+    </div>
+
+    <!-- TITLE + BASIC INFO -->
+    <div class="movie-info">
+
+        <div>
+            <h1 class="fw-bold">{{ movie.title }}</h1>
+
+            <p class="text-secondary-custom mb-1">
+                <i class="fas fa-calendar-alt"></i> {{ movie.release_date }}
+            </p>
+
+            <p class="text-secondary-custom mb-1">
+                <i class="fas fa-clock"></i> {{ movie.runtime }} minutes
+            </p>
+            
+            <p class="text-secondary-custom">
+                <i class="fas fa-tags"></i>
+                {% for genre in movie.genres %}
+                    {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+
+        <!-- ACTION BUTTONS GROUP -->
+        <div class="movie-actions" style="display: flex; flex-direction: column; align-items: flex-end; gap: 12px;">
+
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end;">
+                <!-- WATCHLIST BUTTON -->
+                <button class="watchlist-btn movie-watchlist-btn" 
+                        onclick="toggleWatchlist(this)"
+                        data-media-id="{{ movie.id }}"
+                        data-media-type="movie"
+                        data-title="{{ movie.title }}"
+                        data-poster-path="{{ movie.poster_path }}">
+                    <i class="fas fa-plus"></i> Add to Watchlist
+                </button>
+
+                <!-- WATCHED BUTTON -->
+                <button class="watch-btn movie-watch-btn" 
+                        onclick="toggleWatched(this)"
+                        data-media-id="{{ movie.id }}"
+                        data-title="{{ movie.title }}"
+                        data-poster-path="{{ movie.poster_path }}">
+                    <i class="fas fa-check"></i> Mark as Watched
+                </button>
+            </div>
+
+            <!-- USER RATING - Include only (card is inside the include) -->
+            {% if user.is_authenticated %}
+                {% include 'includes/rating.html' with media_id=movie.id media_type='movie' %}
+            {% else %}
+                <div class="rating-card" style="background: var(--surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 18px; width: 100%; max-width: 350px; margin-top: 4px;">
+                    <p class="text-secondary-custom" style="margin: 0; font-size: 14px;">
+                        <i class="fas fa-lock"></i>
+                        <a href="{% url 'login' %}" style="color: var(--primary);">Login</a> to rate this movie
+                    </p>
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="mt-4">
+        <h4><i class="fas fa-info-circle"></i> About</h4>
+        <p>{{ movie.overview }}</p>
+    </div>
+
+    <!-- TMDB RATING -->
+    <div class="mt-4">
+        <h4><i class="fas fa-star" style="color: #FBBF24;"></i> TMDB Rating</h4>
+        <p>{{ movie.vote_average }}</p>
+    </div>
+
+    <!-- CAST -->
+    <div class="mt-5">
+
+        <h3><i class="fas fa-users"></i> Cast</h3>
+
+        <div class="row g-3 mt-2">
+
+            {% for actor in cast %}
+
+            <div class="col-6 col-md-3 col-lg-2">
+
+                <div class="cast-card">
+
+                    {% if actor.profile_path %}
+                        <img src="https://image.tmdb.org/t/p/w185{{ actor.profile_path }}"
+                             class="cast-image"
+                             alt="{{ actor.name }}">
+                    {% else %}
+                        <div style="width:100%; height:185px; background: var(--surface); border-radius:12px; display:flex; align-items:center; justify-content:center; color: var(--text-secondary);">
+                            <i class="fas fa-user" style="font-size: 40px;"></i>
+                        </div>
+                    {% endif %}
+
+                    <h6 class="cast-name">{{ actor.name }}</h6>
+
+                    <small class="cast-character">
+                        <i class="fas fa-user-tag"></i> {{ actor.character }}
+                    </small>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- COMMENTS -->
+<div class="mt-5">
+    <h4><i class="fas fa-comments"></i> Comments</h4>
+    {% include 'includes/comments.html' with media_id=movie.id media_type='movie' %}
+</div>
+
+{% endblock %}

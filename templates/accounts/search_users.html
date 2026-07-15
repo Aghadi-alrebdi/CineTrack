@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="fw-bold" style="font-size: 1.5rem;">
+            <i class="fas fa-users"></i> Find People
+        </h1>
+        
+    </div>
+
+    <!-- Search Form -->
+    <div class="movie-card" style="padding: 12px; margin-bottom: 16px;">
+        <form method="GET" action="{% url 'search_users' %}" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <input type="text" 
+                   name="q" 
+                   placeholder="Search by username..." 
+                   value="{{ query }}"
+                   style="flex: 1; min-width: 150px; padding: 8px 12px; background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 8px; outline: none; transition: 0.25s; font-family: 'Poppins', sans-serif; font-size: 13px;"
+                   onfocus="this.style.borderColor='var(--primary)'" 
+                   onblur="this.style.borderColor=''">
+            <button type="submit" class="btn btn-primary-custom" style="padding: 8px 16px; font-size: 13px;">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </form>
+    </div>
+
+    <!-- Results -->
+    {% if query %}
+        <p class="text-secondary-custom mb-2" style="font-size: 13px;">
+            Showing results for: <strong>"{{ query }}"</strong>
+            {% if users %}
+                (<i class="fas fa-user"></i> {{ users|length }} found)
+            {% endif %}
+        </p>
+
+        {% if users %}
+
+        <div class="row g-2">
+
+            {% for user in users %}
+
+            <div class="col-6 col-md-3 col-lg-2">
+
+                <a href="{% url 'profile' user.username %}" style="text-decoration: none; color: inherit; display: block;">
+                    <div class="movie-card" style="padding: 12px 14px; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: 0.25s; text-align: center;">
+
+                        <!-- Avatar -->
+                        <div style="flex-shrink: 0;">
+                            {% if user.profile.profile_picture %}
+                                <img src="{{ user.profile.profile_picture.url }}" 
+                                     style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary);">
+                            {% else %}
+                                <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--surface-light); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; color: var(--text-primary); border: 2px solid var(--primary);">
+                                    {{ user.username|first|upper }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- User Info -->
+                        <div style="min-width: 0; width: 100%;">
+                            <div style="font-weight: 600; color: var(--text-primary); font-size: 13px; transition: 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                {{ user.username }}
+                            </div>
+                            <div style="color: var(--text-secondary); font-size: 10px;">
+                                <i class="fas fa-calendar-alt"></i> {{ user.profile.join_date|date:"M Y" }}
+                            </div>
+                        </div>
+
+                        <!-- Follow Button -->
+                        <div style="flex-shrink: 0; width: 100%;" onclick="event.stopPropagation();">
+                            {% if user != request.user %}
+                                {% if user.is_following %}
+                                    <a href="{% url 'unfollow_user' user.username %}" class="btn btn-outline-custom" style="padding: 3px 12px; font-size: 11px; width: 100%; display: block; text-align: center; text-decoration: none;">
+                                        <i class="fas fa-user-minus"></i> Unfollow
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'follow_user' user.username %}" class="btn btn-primary-custom" style="padding: 3px 12px; font-size: 11px; width: 100%; display: block; text-align: center; text-decoration: none;">
+                                        <i class="fas fa-user-plus"></i> Follow
+                                    </a>
+                                {% endif %}
+                            {% else %}
+                                <span style="color: var(--text-muted); font-size: 11px; padding: 3px 12px; background: var(--surface-light); border-radius: 12px; display: block; width: 100%;">
+                                    <i class="fas fa-user"></i> You
+                                </span>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="movie-card text-center py-3">
+            <div style="font-size: 28px; color: var(--text-muted); margin-bottom: 8px;">
+                <i class="fas fa-user-slash"></i>
+            </div>
+            <h5 style="font-size: 14px;">No users found</h5>
+            <p class="text-secondary-custom mb-0" style="font-size: 13px;">
+                Try searching with a different username.
+            </p>
+        </div>
+
+        {% endif %}
+
+    {% else %}
+
+    <div class="movie-card text-center py-3">
+        <div style="font-size: 28px; color: var(--text-muted); margin-bottom: 8px;">
+            <i class="fas fa-search-users"></i>
+        </div>
+        <h5 style="font-size: 14px;">Find people to follow</h5>
+        <p class="text-secondary-custom mb-0" style="font-size: 13px;">
+            Enter a username above to discover and connect with other users.
+        </p>
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
